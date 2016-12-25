@@ -5,7 +5,6 @@
 #include <GLFW/glfw3.h>
 #include <fstream>
 #include <sstream>
-#include <iostream>
 
 class Shader {
 public:

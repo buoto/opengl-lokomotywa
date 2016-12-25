@@ -6,10 +6,11 @@
 #include <exception>
 #include <string>
 #include "ShaderProgram.h"
+#include "Scene.h"
 
 class Window {
 public:
-	Window(int width, int height, const char *label, ShaderProgram& sh);
+	Window(int width, int height, const char *label, ShaderProgram& sh, Drawable& scene);
 	~Window();
 	void run();
 
@@ -18,5 +19,6 @@ private:
 
 	GLFWwindow *window;
 	ShaderProgram& shaderProgram;
+	Drawable& scene;
 };
 

@@ -1,8 +1,8 @@
 #include "Window.h"
 
 
-Window::Window(GLint width, GLint height, const char *label, ShaderProgram& sh)
-	:shaderProgram(sh) {
+Window::Window(GLint width, GLint height, const char *label, ShaderProgram& sh, Drawable& scene)
+	:shaderProgram(sh), scene(scene) {
 	if (glfwInit() != GL_TRUE) {
 		throw std::exception("GLFW init failed");
 	}
@@ -20,12 +20,13 @@ Window::Window(GLint width, GLint height, const char *label, ShaderProgram& sh)
 
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK) {
-		std::cout << "GLEW init failed" << std::endl;
+		throw std::exception("GLEW init failed");
 	}
 
 	shaderProgram.init();
 
 	// Init scene on GPU TODO
+	scene.load();
 	// Texture options TODO
 	// Textures TODO
 
@@ -51,6 +52,7 @@ void Window::run() {
 		// Set perspective projection TODO
 		// Set view transformation TODO
 		// Draw scene TODO
+		scene.draw();
 
 		// Swap screen buffers
 		glfwSwapBuffers(window);

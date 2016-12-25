@@ -1,15 +1,15 @@
-#define GLEW_STATIC
 #include <iostream>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+
 #include "Window.h"
 #include "Shader.h"
+#include "Scene.h"
 
 int main(){
-	ShaderProgram s("main.vert", "main.frag");
+	ShaderProgram shaders("main.vert", "main.frag");
+	Scene scene;
 
 	try {
-		Window window(800, 600, "Lokomotywa", s);
+		Window window(800, 600, "Lokomotywa", shaders, scene);
 
 		window.run();
 	} catch (std::exception ex){
