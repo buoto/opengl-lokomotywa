@@ -6,11 +6,15 @@
 #include "Shader.h"
 
 int main(){
+	ShaderProgram s("main.vert", "main.frag");
 
 	try {
-		Window window(800, 600, "Lokomotywa");
+		Window window(800, 600, "Lokomotywa", s);
+
+		window.run();
 	} catch (std::exception ex){
 		std::cout << ex.what() << std::endl;
+		_sleep(10000);
 	}
 
 	glfwTerminate();

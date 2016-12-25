@@ -10,6 +10,7 @@
 class Shader {
 public:
 	Shader(const char *path, GLenum shaderType);
+	~Shader();
 	GLint getID();
 private:
 	GLint id;

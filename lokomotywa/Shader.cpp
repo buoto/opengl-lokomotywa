@@ -1,15 +1,19 @@
 #include "Shader.h"
 
-// Shader constructor with RAII principle in mind
-Shader::Shader(const char *path, GLenum shaderType) {
+std::string loadFile(const char *path) {
 	std::fstream shader_file(path);
 	std::stringstream stream;
 	stream << shader_file.rdbuf();
 	shader_file.close();
+	return stream.str();
+}
+
+// Shader constructor with RAII principle in mind
+Shader::Shader(const char *path, GLenum shaderType) {
 
 	// compilation
-	const GLchar* source = stream.str().c_str();
-	std::cout << "SOURCE: " << source << std::endl;
+	std::string sourceStr = loadFile(path);
+	const GLchar* source = sourceStr.c_str();
 	id = glCreateShader(shaderType);
 	glShaderSource(id, 1, &source, NULL);
 	glCompileShader(id);
@@ -23,6 +27,10 @@ Shader::Shader(const char *path, GLenum shaderType) {
 		std::string msg = std::string("Err during shader compilation: ") + glmsg;
 		throw std::exception(msg.c_str());
 	}
+}
+
+Shader::~Shader() {
+	glDeleteShader(id);
 }
 
 

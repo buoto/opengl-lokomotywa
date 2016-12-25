@@ -1,7 +1,8 @@
 #include "Window.h"
 
 
-Window::Window(GLint width, GLint height, const char *label) {
+Window::Window(GLint width, GLint height, const char *label, ShaderProgram& sh)
+	:shaderProgram(sh) {
 	if (glfwInit() != GL_TRUE) {
 		throw std::exception("GLFW init failed");
 	}
@@ -15,7 +16,6 @@ Window::Window(GLint width, GLint height, const char *label) {
 	glfwMakeContextCurrent(window);
 	glfwSetKeyCallback(window, Window::keyCallback);
 
-
 	glViewport(0, 0, width, height);
 
 	glewExperimental = GL_TRUE;
@@ -23,14 +23,36 @@ Window::Window(GLint width, GLint height, const char *label) {
 		std::cout << "GLEW init failed" << std::endl;
 	}
 
-	Shader s("main.vert", GL_VERTEX_SHADER); // TODO extract
+	shaderProgram.init();
+
+	// Init scene on GPU TODO
+	// Texture options TODO
+	// Textures TODO
 
 	glEnable(GL_DEPTH_TEST);
+}
 
+void Window::run() {
 	while (!glfwWindowShouldClose(window)) {
+		// Frame calculation TODO
+
+		// Handle input TODO
 		glfwPollEvents();
+
+		// Clear colorbuffer
 		glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// Bind textures TODO
+		shaderProgram.use();
+		
+		// Get locations TODO
+
+		// Set perspective projection TODO
+		// Set view transformation TODO
+		// Draw scene TODO
+
+		// Swap screen buffers
 		glfwSwapBuffers(window);
 	}
 }
