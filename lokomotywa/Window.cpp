@@ -25,8 +25,9 @@ Window::Window(GLint width, GLint height, const char *label, ShaderProgram& sh, 
 
 	shaderProgram.init();
 
-	// Init scene on GPU TODO
+	// Init scene on GPU
 	scene.load();
+
 	// Texture options TODO
 	// Textures TODO
 

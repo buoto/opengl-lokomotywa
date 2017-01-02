@@ -3,10 +3,13 @@
 #include "Window.h"
 #include "Shader.h"
 #include "Scene.h"
+#include "Triangle.h"
 
 int main(){
 	ShaderProgram shaders("main.vert", "main.frag");
 	Scene scene;
+	Triangle triangle;
+	scene.add(&triangle);
 
 	try {
 		Window window(800, 600, "Lokomotywa", shaders, scene);
