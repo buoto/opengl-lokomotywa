@@ -1,8 +1,11 @@
 #include "Window.h"
 
+bool Window::keys[1024] = {};
+
+const GLfloat Window::SPEED_MULTIPLIER = 5.0f;
 
 Window::Window(GLint width, GLint height, const char *label, ShaderProgram& sh, Drawable& scene)
-	:shaderProgram(sh), scene(scene) {
+	:width(width), height(height), shaderProgram(sh), scene(scene) {
 	if (glfwInit() != GL_TRUE) {
 		throw std::exception("GLFW init failed");
 	}
@@ -28,7 +31,13 @@ Window::Window(GLint width, GLint height, const char *label, ShaderProgram& sh, 
 	// Init scene on GPU
 	scene.load();
 
-	// Texture options TODO
+	// Texture options
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
 	// Textures TODO
 
 	glEnable(GL_DEPTH_TEST);
@@ -36,22 +45,41 @@ Window::Window(GLint width, GLint height, const char *label, ShaderProgram& sh, 
 
 void Window::run() {
 	while (!glfwWindowShouldClose(window)) {
-		// Frame calculation TODO
+		// Frame calculation
+		GLfloat currentFrame = (GLfloat)glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
 
 		// Handle input TODO
 		glfwPollEvents();
+		moveCamera();
 
 		// Clear colorbuffer
 		glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Bind textures TODO
+
 		shaderProgram.use();
 		
-		// Get locations TODO
+		// Get locations
+		GLuint modelLoc = glGetUniformLocation(shaderProgram.getID(), "model");
+		GLuint viewLoc = glGetUniformLocation(shaderProgram.getID(), "view");
+		GLuint projectionLoc = glGetUniformLocation(shaderProgram.getID(), "projection");
 
-		// Set perspective projection TODO
-		// Set view transformation TODO
+		// Set perspective projection
+		glm::mat4 projection = glm::perspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.f);
+		//std::cout << glm::to_string(projection) << std::endl;
+		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+		// Set view transformation
+		glm::mat4 view = glm::lookAt(cameraPos, glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+
+		// Set model transformation
+		glm::mat4 model;
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+
 		// Draw scene TODO
 		scene.draw();
 
@@ -61,11 +89,33 @@ void Window::run() {
 }
 
 Window::~Window() {
+	glfwTerminate();
+}
+
+void Window::moveCamera() {
+	GLfloat cameraSpeed = SPEED_MULTIPLIER * deltaTime;
+	if (keys[GLFW_KEY_LEFT]) {
+		cameraPos = glm::rotate(cameraPos, cameraSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
+	} else if (keys[GLFW_KEY_RIGHT]) {
+		cameraPos = glm::rotate(cameraPos, -cameraSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
+	} else if (keys[GLFW_KEY_UP]) {
+		cameraPos = glm::rotate(cameraPos, cameraSpeed, glm::vec3(1.0f, 0.0f, 0.0f));
+	} else if (keys[GLFW_KEY_DOWN]) {
+		cameraPos = glm::rotate(cameraPos, -cameraSpeed, glm::vec3(1.0f, 0.0f, 0.0f));
+	}
 }
 
 void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode) {
-	// TODO
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, GL_TRUE);
+		return;
+	}
+	if (key < 1024) {
+		if (action == GLFW_PRESS) {
+			keys[key] = true;
+		} else if (action == GLFW_RELEASE) {
+			keys[key] = false;
+		}
+	}
 }
 
