@@ -28,9 +28,6 @@ Window::Window(GLint width, GLint height, const char *label, ShaderProgram& sh, 
 
 	shaderProgram.init();
 
-	// Init scene on GPU
-	scene.load();
-
 	// Texture options
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -38,9 +35,14 @@ Window::Window(GLint width, GLint height, const char *label, ShaderProgram& sh, 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	// Textures TODO
+	// Textures
+
+	textures.push_back(loadMipmapTexture(GL_TEXTURE0, "wheel.jpg"));
 
 	glEnable(GL_DEPTH_TEST);
+
+	// Init scene on GPU
+	scene.load();
 }
 
 void Window::run() {
@@ -50,7 +52,7 @@ void Window::run() {
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		// Handle input TODO
+		// Handle input
 		glfwPollEvents();
 		moveCamera();
 
@@ -58,7 +60,10 @@ void Window::run() {
 		glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// Bind textures TODO
+		// Bind textures
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, textures[0]);
+		glUniform1i(glGetUniformLocation(shaderProgram.getID(), "Texture0"), 0);
 
 		shaderProgram.use();
 		
@@ -125,6 +130,20 @@ void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action, 
 }
 
 
-GLuint Window::loadMipmapTexture(GLuint texID, const char* filename) {
+GLuint Window::loadMipmapTexture(GLuint texID, const char *filename) {
+	int width, height;
+	unsigned char *image = SOIL_load_image(filename, &width, &height, 0, SOIL_LOAD_RGB);
+	if (image == nullptr) {
+		throw std::exception(std::string("failed to load texture file: ").append(filename).c_str());
+	}
+	GLuint texture;
+	glGenTextures(1, &texture);
 
+	glActiveTexture(texID);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	SOIL_free_image_data(image);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	return texture;
 }

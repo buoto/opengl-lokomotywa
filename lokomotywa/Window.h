@@ -11,6 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/ext.hpp>
+#include <SOIL.h>
 
 #include "ShaderProgram.h"
 #include "Scene.h"
@@ -36,5 +37,6 @@ private:
 	GLfloat theta = 0, phi = 0;
 	ShaderProgram& shaderProgram;
 	Drawable& scene;
+	std::vector<GLuint> textures;
 };
 

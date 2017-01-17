@@ -97,6 +97,7 @@
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="Primitive.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
@@ -108,6 +109,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="main.frag" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="lokomotywa.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="wheel.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
