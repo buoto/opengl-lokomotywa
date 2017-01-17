@@ -84,7 +84,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Cylinder.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Scene.cpp" />

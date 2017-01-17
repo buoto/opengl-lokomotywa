@@ -21,6 +21,7 @@ public:
 	~Window();
 	void run();
 
+	static GLuint loadMipmapTexture(GLuint texID, const char* filename);
 private:
 	static const GLfloat SPEED_MULTIPLIER;
 	static bool keys[1024];
@@ -31,7 +32,8 @@ private:
 	GLFWwindow *window;
 	int width, height;
 	GLfloat deltaTime = 0.0f, lastFrame = 0.0f;
-	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 0.0f);
+	GLfloat theta = 0, phi = 0;
 	ShaderProgram& shaderProgram;
 	Drawable& scene;
 };

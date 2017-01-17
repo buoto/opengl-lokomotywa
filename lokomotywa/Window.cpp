@@ -93,16 +93,21 @@ Window::~Window() {
 }
 
 void Window::moveCamera() {
-	GLfloat cameraSpeed = SPEED_MULTIPLIER * deltaTime;
+	GLfloat cameraSpeed = SPEED_MULTIPLIER * deltaTime, radius = 3.0f;
 	if (keys[GLFW_KEY_LEFT]) {
-		cameraPos = glm::rotate(cameraPos, cameraSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
+		theta -= cameraSpeed;
 	} else if (keys[GLFW_KEY_RIGHT]) {
-		cameraPos = glm::rotate(cameraPos, -cameraSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
+		theta += cameraSpeed;
 	} else if (keys[GLFW_KEY_UP]) {
-		cameraPos = glm::rotate(cameraPos, cameraSpeed, glm::vec3(1.0f, 0.0f, 0.0f));
+		if (phi + cameraSpeed < glm::half_pi<GLfloat>()) {
+			phi += cameraSpeed;
+		}
 	} else if (keys[GLFW_KEY_DOWN]) {
-		cameraPos = glm::rotate(cameraPos, -cameraSpeed, glm::vec3(1.0f, 0.0f, 0.0f));
+		if (phi - cameraSpeed > 0) { // > -glm::half_pi<GLfloat>()) {
+			phi -= cameraSpeed;
+		}
 	}
+	cameraPos = glm::vec3(sin(theta) * cos(phi) * radius, sin(phi) * radius, cos(theta) * cos(phi) * radius);
 }
 
 void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mode) {
@@ -119,3 +124,7 @@ void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action, 
 	}
 }
 
+
+GLuint Window::loadMipmapTexture(GLuint texID, const char* filename) {
+
+}
