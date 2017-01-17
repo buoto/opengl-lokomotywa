@@ -21,6 +21,7 @@ protected:
 	Primitive(GLuint mode) : mode(mode) {}
 	std::vector<GLfloat> vertices;
 	GLuint mode;
+	static const unsigned VERTEX_SIZE = 6;
 private:
 	GLuint vao;
 	GLuint vbo;

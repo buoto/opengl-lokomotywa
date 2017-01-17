@@ -114,6 +114,7 @@
     <ResourceCompile Include="lokomotywa.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="rails.jpg" />
     <Image Include="wheel.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

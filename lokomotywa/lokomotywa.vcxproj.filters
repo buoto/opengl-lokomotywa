@@ -92,5 +92,8 @@
     <Image Include="wheel.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="rails.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

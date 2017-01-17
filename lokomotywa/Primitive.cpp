@@ -11,11 +11,11 @@ void Primitive::load() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * vertices.size(), &(vertices[0]), GL_STATIC_DRAW);
 
 	// geometry
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 
 	// texture
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTEX_SIZE * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -41,14 +41,14 @@ Primitive::~Primitive() {
 
 std::vector<GLfloat> Primitive::scaleAndMove(std::vector<GLfloat> v, glm::vec3 scale, glm::vec3 move) {
 	for (unsigned i = 0; i < v.size();) {
+		unsigned ni = i + VERTEX_SIZE;
 		v[i] = v[i] * scale.x/2 + move.x;
 		i++;
 		v[i] = v[i] * scale.y/2 + move.y;
 		i++;
 		v[i] = v[i] * scale.z/2 + move.z;
 		i++;
-		i++;
-		i++;
+		i = ni;
 	}
 	return v;
 }
