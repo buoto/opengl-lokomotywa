@@ -95,5 +95,11 @@
     <Image Include="rails.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="black_metal.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="rod.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
