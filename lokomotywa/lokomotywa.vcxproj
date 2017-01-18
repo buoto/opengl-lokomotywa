@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="black_metal.jpg" />
+    <Image Include="grass.jpg" />
     <Image Include="rails.jpg" />
     <Image Include="rod.jpg" />
     <Image Include="wheel.jpg" />
