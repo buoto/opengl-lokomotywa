@@ -63,4 +63,7 @@ public:
 		}
 		vertices = Primitive::scaleAndMove(vertices, scale, move);
 	}
+	void draw() { 
+		Primitive::draw();
+	}
 };

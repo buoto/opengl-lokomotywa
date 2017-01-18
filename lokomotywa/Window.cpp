@@ -38,6 +38,8 @@ Window::Window(GLint width, GLint height, const char *label, ShaderProgram& sh, 
 	// Textures
 
 	textures.push_back(loadMipmapTexture(GL_TEXTURE0, "wheel.jpg"));
+	textures.push_back(loadMipmapTexture(GL_TEXTURE1, "rails.jpg"));
+	textures.push_back(loadMipmapTexture(GL_TEXTURE2, "grass.jpg"));
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -57,13 +59,21 @@ void Window::run() {
 		moveCamera();
 
 		// Clear colorbuffer
-		glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
+		glClearColor(0.25f, 0.6f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Bind textures
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textures[0]);
-		glUniform1i(glGetUniformLocation(shaderProgram.getID(), "Texture0"), 0);
+		glUniform1i(glGetUniformLocation(shaderProgram.getID(), "wheelTex"), 0);
+		
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, textures[1]);
+		glUniform1i(glGetUniformLocation(shaderProgram.getID(), "railsTex"), 1);
+
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, textures[2]);
+		glUniform1i(glGetUniformLocation(shaderProgram.getID(), "grassTex"), 2);
 
 		shaderProgram.use();
 		

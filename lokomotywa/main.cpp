@@ -12,10 +12,23 @@ int main(){
 	ShaderProgram shaders("main.vert", "main.frag");
 	Scene scene;
 
-	Box box(glm::vec3(0.5f, 0.7f, 0.5f), glm::vec3(-1.0f, 0.0f, 0.0f));
-	Cylinder c(glm::vec3(1.5f, 1.5f, 0.1f), glm::vec3(0.0f, 0.0f, 0.0f), 20);
+	Box box(glm::vec3(1.5f, 0.7f, 0.97f), glm::vec3(0.0f, 0.05f, 0.0f));
+
+	// wheels
+	Cylinder fr(glm::vec3(1.5f, 1.5f, 0.1f), glm::vec3(0.5f, -0.125f, 0.52f), 20);
+	Cylinder fl(glm::vec3(1.5f, 1.5f, 0.1f), glm::vec3(0.5f, -0.125f, -0.51f), 20);
+	Cylinder br(glm::vec3(1.5f, 1.5f, 0.1f), glm::vec3(-0.5f, -0.125f, 0.52f), 20);
+	Cylinder bl(glm::vec3(1.5f, 1.5f, 0.1f), glm::vec3(-0.5f, -0.125f, -0.51f), 20);
+
+	Box ground(glm::vec3(100.0f, 1.0f, 100.0f), glm::vec3(0.7f, -1.05f, 0.0f), 3.0f, glm::vec2(20, 20), true);
+	Box rails(glm::vec3(100.0f, 1.0f, 2.0f), glm::vec3(0.4f, -1.0f, 0.0f), 2.0f, glm::vec2(20, 1), true);
 	scene.add(&box);
-	scene.add(&c);
+	scene.add(&fr);
+	scene.add(&fl);
+	scene.add(&br);
+	scene.add(&bl);
+	scene.add(&ground);
+	scene.add(&rails);
 
 	try {
 		Window window(800, 600, "Lokomotywa", shaders, scene);
