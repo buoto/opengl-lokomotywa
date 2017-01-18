@@ -23,10 +23,11 @@ void Primitive::load() {
 	// unbind
 	glBindVertexArray(0);
 }
-void Primitive::draw() {
+void Primitive::draw(float delta, int modelLoc) {
 	glBindVertexArray(vao);
 
-	// transformations TODO
+	// transformations
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
 	glDrawArrays(mode, 0, (GLuint)vertices.size());
 

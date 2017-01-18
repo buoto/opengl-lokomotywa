@@ -40,6 +40,8 @@ Window::Window(GLint width, GLint height, const char *label, ShaderProgram& sh, 
 	textures.push_back(loadMipmapTexture(GL_TEXTURE0, "wheel.jpg"));
 	textures.push_back(loadMipmapTexture(GL_TEXTURE1, "rails.jpg"));
 	textures.push_back(loadMipmapTexture(GL_TEXTURE2, "grass.jpg"));
+	textures.push_back(loadMipmapTexture(GL_TEXTURE3, "black_metal.jpg"));
+	textures.push_back(loadMipmapTexture(GL_TEXTURE4, "rod.jpg"));
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -75,6 +77,14 @@ void Window::run() {
 		glBindTexture(GL_TEXTURE_2D, textures[2]);
 		glUniform1i(glGetUniformLocation(shaderProgram.getID(), "grassTex"), 2);
 
+		glActiveTexture(GL_TEXTURE3);
+		glBindTexture(GL_TEXTURE_2D, textures[3]);
+		glUniform1i(glGetUniformLocation(shaderProgram.getID(), "blackMetalTex"), 3);
+
+		glActiveTexture(GL_TEXTURE4);
+		glBindTexture(GL_TEXTURE_2D, textures[4]);
+		glUniform1i(glGetUniformLocation(shaderProgram.getID(), "rodTex"), 4);
+
 		shaderProgram.use();
 		
 		// Get locations
@@ -95,8 +105,8 @@ void Window::run() {
 		glm::mat4 model;
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-		// Draw scene TODO
-		scene.draw();
+		// Draw scene
+		scene.draw(deltaTime, modelLoc);
 
 		// Swap screen buffers
 		glfwSwapBuffers(window);

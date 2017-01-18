@@ -16,6 +16,8 @@ class Cylinder :
 	public Primitive {
 public:
 	Cylinder(glm::vec3 scale, glm::vec3 move, int sides) : Primitive(GL_TRIANGLE_STRIP) {
+		this->move = move;
+		isStatic = false;
 		GLfloat radius = 0.5f, halfLength = 0.5f, a = 0.0f;
 		GLfloat step = glm::two_pi<GLfloat>() / sides;
 		vertices.reserve(5*5*sides);
@@ -63,7 +65,13 @@ public:
 		}
 		vertices = Primitive::scaleAndMove(vertices, scale, move);
 	}
-	void draw() { 
-		Primitive::draw();
+	void draw(float delta, int modelLoc) {
+		trans = glm::translate(trans, move);
+		trans = glm::rotate(trans, delta * ROTATE_SPEED, glm::vec3(0.0f, 0.0f, 1.0f));
+		trans = glm::translate(trans, -move);
+		Primitive::draw(delta, modelLoc);
 	}
+
+private:
+	const float ROTATE_SPEED = -1.0f;
 };

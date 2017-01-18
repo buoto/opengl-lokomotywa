@@ -10,9 +10,9 @@ void Scene::load() {
 	}
 }
 
-void Scene::draw() {
+void Scene::draw(float delta, int modelLoc) {
 	for (Drawable *d : elements) {
-		d->draw();
+		d->draw(delta, modelLoc);
 	}
 }
 
