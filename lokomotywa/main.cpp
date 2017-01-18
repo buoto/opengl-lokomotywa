@@ -10,6 +10,7 @@
 
 int main(){
 	ShaderProgram shaders("main.vert", "main.frag");
+
 	Scene scene;
 
 	Box body(glm::vec3(2.1f, 0.7f, 0.97f), glm::vec3(0.0f, 0.05f, 0.0f), Box::BODY, 4);
@@ -21,8 +22,8 @@ int main(){
 	Cylinder br(glm::vec3(1.5f, 1.5f, 0.1f), glm::vec3(-0.5f, -0.125f, 0.52f), 20);
 	Cylinder bl(glm::vec3(1.5f, 1.5f, 0.1f), glm::vec3(-0.5f, -0.125f, -0.51f), 20);
 
-	Box rodR(glm::vec3(1.1f, 0.1f, 0.05f), glm::vec3(0.1f, 0.1f, 0.58f), Box::ROD, 5);
-	Box rodL(glm::vec3(1.1f, 0.1f, 0.05f), glm::vec3(0.1f, 0.1f, -0.57f), Box::ROD, 5);
+	Box rodR(glm::vec3(1.1f, 0.1f, 0.05f), glm::vec3(0.0f, -0.125f, 0.58f), Box::ROD, 5);
+	Box rodL(glm::vec3(1.1f, 0.1f, 0.05f), glm::vec3(0.0f, -0.125f, -0.57f), Box::ROD, 5);
 	
 
 	Box ground(glm::vec3(100.0f, 1.0f, 100.0f), glm::vec3(0.7f, -1.05f, 0.0f), Box::STATIC, 3.0f, glm::vec2(20, 20));
@@ -40,7 +41,7 @@ int main(){
 	scene.add(&rails);
 
 	try {
-		Window window(800, 600, "Lokomotywa", shaders, scene);
+		Window window(1280, 1024, "Lokomotywa", shaders, scene);
 
 		window.run();
 	} catch (std::exception ex){

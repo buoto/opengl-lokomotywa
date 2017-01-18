@@ -105,6 +105,7 @@ void Window::run() {
 		glm::mat4 model;
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
+		
 		// Draw scene
 		scene.draw(deltaTime, modelLoc);
 
@@ -118,7 +119,7 @@ Window::~Window() {
 }
 
 void Window::moveCamera() {
-	GLfloat cameraSpeed = SPEED_MULTIPLIER * deltaTime, radius = 3.0f;
+	GLfloat cameraSpeed = SPEED_MULTIPLIER * deltaTime, radius = 5.0f;
 	if (keys[GLFW_KEY_LEFT]) {
 		theta -= cameraSpeed;
 	} else if (keys[GLFW_KEY_RIGHT]) {
@@ -128,7 +129,7 @@ void Window::moveCamera() {
 			phi += cameraSpeed;
 		}
 	} else if (keys[GLFW_KEY_DOWN]) {
-		if (phi - cameraSpeed > 0) { // > -glm::half_pi<GLfloat>()) {
+		if (phi - cameraSpeed > 0) {
 			phi -= cameraSpeed;
 		}
 	}

@@ -38,5 +38,6 @@ private:
 	ShaderProgram& shaderProgram;
 	Drawable& scene;
 	std::vector<GLuint> textures;
+
 };
 

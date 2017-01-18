@@ -59,15 +59,20 @@ public:
 
 	void draw(float delta, int modelLoc) {
 		if (type == ROD) {
-			last += delta;
-			trans = glm::translate(trans, glm::vec3(sin(last)*0.004, cos(last)*0.004, 0.0f));
+			last += delta*ROD_ROTATE_SPEED;
+			trans = glm::translate(glm::mat4(1.0f), glm::vec3(sin(last), cos(last), 0.0f)*RADIUS);
+		} else if (type == STATIC) {
+			trans = glm::translate(trans, glm::vec3(-delta*STATIC_SPEED, 0, 0));
 		}
 		Primitive::draw(delta, modelLoc);
 	}
 
 private:
+	const double ROD_ROTATE_SPEED = 0.5f;
+	const double STATIC_SPEED = 0.3f;
+	const double RADIUS = 0.2f;
 	whatis type;
-	GLfloat last = 0;
+	GLfloat last = -2.5;
 	
 };
 

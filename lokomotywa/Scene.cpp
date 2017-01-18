@@ -11,6 +11,8 @@ void Scene::load() {
 }
 
 void Scene::draw(float delta, int modelLoc) {
+	if (ratio > 0) ratio -= RATIO_STEP; else ratio = 0;
+	delta *= ratio;
 	for (Drawable *d : elements) {
 		d->draw(delta, modelLoc);
 	}
